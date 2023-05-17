@@ -11,6 +11,12 @@ CREATE DATABASE uvv
     IS_TEMPLATE = False;
 
 ------------------------------------------------------------------------------------
+-- CRIAÇÃO DO SCHEMA
+ DROP SCHEMA IF EXISTS lojas;
+CREATE SCHEMA IF NOT EXISTS lojas
+    AUTHORIZATION gustavo;
+
+------------------------------------------------------------------------------------
 -- CRIAÇÃO DO USUÁRIO
  DROP ROLE IF EXISTS gustavo;
 CREATE ROLE gustavo WITH
@@ -23,12 +29,6 @@ CREATE ROLE gustavo WITH
   ENCRYPTED PASSWORD 'SCRAM-SHA-256$4096:sdWYgsqQD7JJJ2R61Wh9zw==$tB15t5pABnUheJGv1Zr7Vgt9u4oOB2bvDkotMe5J6VA=:m2Axisd6B/SBVZalgZxPEUJEWdDN/xGWOtCAndxsiM8=';
 
 COMMENT ON ROLE gustavo IS 'usuário para acessar o banco de dados';
-
-------------------------------------------------------------------------------------
--- CRIAÇÃO DO SCHEMA
- DROP SCHEMA IF EXISTS lojas;
-CREATE SCHEMA IF NOT EXISTS lojas
-    AUTHORIZATION gustavo;
 
 ------------------------------------------------------------------------------------
 -- CRIAÇÃO DA TABELA PRODUTOS
