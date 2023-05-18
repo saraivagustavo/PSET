@@ -5,4 +5,4 @@
 ##### cc1mc_202306629_postgresql.architech.pdf
 > Arquivo PDF da imagem do diagrama.
 ##### cc1mc_202306629_postgresql.sql
-> Este subdiretório contém o script sql para a criação do banco de dados no PostgreSQL.
+> Este subdiretório contém o script SQL para a criação do banco de dados no PostgreSQL.
