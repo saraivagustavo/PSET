@@ -1,4 +1,4 @@
-# Projeto da Disciplina Banco de Dados I, dirigido pelo professor Abrantes Araújo Silva Filho, em que consiste na criação de um banco de dados desde seu diagrama à requisições. 
+# Projeto da Disciplina Banco de Dados I, dirigido pelo professor Abrantes Araújo Silva Filho. em que consiste na criação de um banco de dados desde o diagrama até requisições. 
 ### O projeto foi feito visando à implementação no PostgreSQL.
 ##### cc1mc_202306629_postgresql.architect
 > Este subdiretório contém o script do diagrama criado no Power Architect que serviu de base para a criação do banco de dados.
