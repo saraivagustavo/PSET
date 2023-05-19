@@ -1,5 +1,17 @@
--- CRIAÇÃO DO BANCO DE DADOS
- DROP DATABASE IF EXISTS uvv;
+------------------------------------------------------------------------------------
+-- FASE DE PREPARAÇÃO DO PSET
+DROP DATABASE IF EXISTS uvv;
+
+DROP USER IF EXISTS gustavo;
+
+DROP ROLE IF EXISTS gustavo;
+------------------------------------------------------------------------------------
+-- CRIAÇÃO DO USUÁRIO
+CREATE USER gustavo WITH
+  CREATEDB
+  CREATEROLE
+  ENCRYPTED PASSWORD '202306629';
+------------------------------------------------------------------------------------
 CREATE DATABASE uvv
     WITH
     OWNER = gustavo
@@ -9,27 +21,16 @@ CREATE DATABASE uvv
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1
     IS_TEMPLATE = False;
-
+------------------------------------------------------------------------------------
+-- TROCA DE CONEXÃO
+SET ROLE gustavo;
+\c uvv;
 ------------------------------------------------------------------------------------
 -- CRIAÇÃO DO SCHEMA
- DROP SCHEMA IF EXISTS lojas;
+DROP SCHEMA IF EXISTS lojas;
 CREATE SCHEMA IF NOT EXISTS lojas
     AUTHORIZATION gustavo;
-
-------------------------------------------------------------------------------------
--- CRIAÇÃO DO USUÁRIO
- DROP ROLE IF EXISTS gustavo;
-CREATE ROLE gustavo WITH
-  LOGIN
-  SUPERUSER
-  INHERIT
-  CREATEDB
-  CREATEROLE
-  NOREPLICATION
-  ENCRYPTED PASSWORD 'SCRAM-SHA-256$4096:sdWYgsqQD7JJJ2R61Wh9zw==$tB15t5pABnUheJGv1Zr7Vgt9u4oOB2bvDkotMe5J6VA=:m2Axisd6B/SBVZalgZxPEUJEWdDN/xGWOtCAndxsiM8=';
-
-COMMENT ON ROLE gustavo IS 'usuário para acessar o banco de dados';
-
+ALTER DATABASE uvv
 ------------------------------------------------------------------------------------
 -- CRIAÇÃO DA TABELA PRODUTOS
 CREATE TABLE lojas.produtos (
@@ -299,13 +300,13 @@ NOT DEFERRABLE;
 -- CRIAÇÃO DAS RESTRIÇÕES DAS COLUNAS
 -- RESTRIÇÕES DA TABELA PEDIDOS
 -- RESTRIÇÃO DA COLUNA STATUS
-ALTER TABLE pedidos
+ALTER TABLE lojas.pedidos
 ADD CONSTRAINT check_status_pedidos
 CHECK (status IN ('CANCELADO', 'COMPLETO', 'ABERTO', 'PAGO', 'REEMBOLSADO', 'ENVIADO'));
 
 -- RESTRIÇÕES DA TABELA ENVIOS
 -- RESTRIÇÃO DA COLUNA STATUS
-ALTER TABLE envios 
+ALTER TABLE lojas.envios 
 ADD CONSTRAINT check_status_envios 
 CHECK (status IN ('CRIADO', 'ENVIADO', 'TRANSITO', 'ENTREGUE'));
 
@@ -326,4 +327,3 @@ CHECK (quantidade >= 0);
 ALTER TABLE lojas.lojas
 ADD CONSTRAINT check_endereco_lojas
 CHECK (endereco_web IS NOT NULL OR endereco_fisico IS NOT NULL);
-
