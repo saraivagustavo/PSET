@@ -5,7 +5,7 @@
 <details>
   <summary>Título do detalhamento</summary>
 
-  ![Exemplo de imagem](/scripts/_outros/cc1mc_202306629_postgresql_architect.jpg)
+  ![Exemplo de imagem](/scripts/_outros/cc1mc_202306629_postgresql.architect.jpg)
 </details>
 ##### cc1mc_202306629_postgresql.architech.pdf
 > Arquivo PDF da imagem do diagrama.
