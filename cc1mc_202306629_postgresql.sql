@@ -1,17 +1,26 @@
 ------------------------------------------------------------------------------------
--- FASE DE PREPARAÇÃO DO PSET
+-- FASE DE PREPARAÇÃO DO PSET -- 
+------------------------------------------------------------------------------------
+
 DROP DATABASE IF EXISTS uvv;
 
 DROP USER IF EXISTS gustavo;
 
 DROP ROLE IF EXISTS gustavo;
+
 ------------------------------------------------------------------------------------
--- CRIAÇÃO DO USUÁRIO
+-- CRIAÇÃO DO USUÁRIO --
+------------------------------------------------------------------------------------
+
 CREATE USER gustavo WITH
   CREATEDB
   CREATEROLE
   ENCRYPTED PASSWORD '202306629';
+
 ------------------------------------------------------------------------------------
+-- CRIAÇÃO DO BANCO DE DADOS --
+------------------------------------------------------------------------------------
+
 CREATE DATABASE uvv
     WITH
     OWNER = gustavo
@@ -20,19 +29,29 @@ CREATE DATABASE uvv
     LC_CTYPE = 'pt_BR.UTF-8'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1
-    IS_TEMPLATE = False;
+    IS_TEMPLATE = False; 
+
 ------------------------------------------------------------------------------------
--- TROCA DE CONEXÃO
+-- TROCA DE CONEXÃO --
+------------------------------------------------------------------------------------
+
 SET ROLE gustavo;
 \c uvv;
+
 ------------------------------------------------------------------------------------
--- CRIAÇÃO DO SCHEMA
+-- CRIAÇÃO DO SCHEMA --
+------------------------------------------------------------------------------------
+
 DROP SCHEMA IF EXISTS lojas;
 CREATE SCHEMA IF NOT EXISTS lojas
     AUTHORIZATION gustavo;
-ALTER DATABASE uvv
+ALTER DATABASE uvv SET search_path TO "lojas", public;
+SET search_path TO lojas;
+
 ------------------------------------------------------------------------------------
--- CRIAÇÃO DA TABELA PRODUTOS
+-- CRIAÇÃO DA TABELA PRODUTOS --
+------------------------------------------------------------------------------------
+
 CREATE TABLE lojas.produtos (
                 produto_id                  NUMERIC(38) NOT NULL,
                 nome                        VARCHAR(255) NOT NULL,
@@ -48,7 +67,8 @@ CREATE TABLE lojas.produtos (
 
 ALTER TABLE lojas.produtos OWNER TO gustavo;
 
--- CRIAÇÃO DOS COMENTÁRIOS DA TABELA PRODUTOS
+-- CRIAÇÃO DOS COMENTÁRIOS DA TABELA PRODUTOS --
+
 COMMENT ON TABLE lojas.produtos IS 'Tabela com informações de cada produto comercializado.';
 COMMENT ON COLUMN lojas.produtos.produto_id IS 'Chave primária da tabela.
 ID único de cada produto.';
@@ -62,7 +82,9 @@ COMMENT ON COLUMN lojas.produtos.imagem_charset IS 'Charset utilizado para infor
 COMMENT ON COLUMN lojas.produtos.imagem_ultima_atualizacao IS 'Última atualização realizada sobre a imagem do produto.';
 
 ------------------------------------------------------------------------------------
--- CRIAÇÃO DA TABELA LOJAS
+-- CRIAÇÃO DA TABELA LOJAS --
+------------------------------------------------------------------------------------
+
 CREATE TABLE lojas.lojas (
                 loja_id                   NUMERIC(38) NOT NULL,
                 nome                      VARCHAR(255) NOT NULL,
@@ -80,7 +102,8 @@ CREATE TABLE lojas.lojas (
 
 ALTER TABLE lojas.lojas OWNER TO gustavo;
 
--- CRIAÇÃO DOS COMENTÁRIOS DA TABELA LOJAS
+-- CRIAÇÃO DOS COMENTÁRIOS DA TABELA LOJAS --
+
 COMMENT ON TABLE lojas.lojas IS 'Tabela das lojas UVV.';
 COMMENT ON COLUMN lojas.lojas.loja_id IS 'Chave primária da tabela. 
 ID de cada loja.';
@@ -96,7 +119,9 @@ COMMENT ON COLUMN lojas.lojas.logo_charset IS 'Charset utilizado para informar o
 COMMENT ON COLUMN lojas.lojas.logo_ultima_atualizacao IS 'Última atualização realizada sobre a logo da loja.';
 
 ------------------------------------------------------------------------------------
--- CRIAÇÃO DA TABELA ESTOQUES
+-- CRIAÇÃO DA TABELA ESTOQUES --
+------------------------------------------------------------------------------------
+
 CREATE TABLE lojas.estoques (
                 estoque_id   NUMERIC(38) NOT NULL,
                 loja_id      NUMERIC(38) NOT NULL,
@@ -107,7 +132,8 @@ CREATE TABLE lojas.estoques (
 
 ALTER TABLE lojas.estoques OWNER TO gustavo;
 
--- CRIAÇÃO DOS COMENTÁRIOS DA TABELA ESTOQUES
+-- CRIAÇÃO DOS COMENTÁRIOS DA TABELA ESTOQUES --
+
 COMMENT ON TABLE lojas.estoques IS 'Tabela para controlar o estoque de produtos de cada loja.';
 COMMENT ON COLUMN lojas.estoques.estoque_id IS 'Chave primária da tabela.
 ID único de cada estoque.';
@@ -119,6 +145,8 @@ COMMENT ON COLUMN lojas.estoques.quantidade IS 'Quantidade de cada produto, em c
 
 ------------------------------------------------------------------------------------
 -- CRIAÇÃO DA TABELA CLIENTES
+------------------------------------------------------------------------------------
+
 CREATE TABLE lojas.clientes (
                 cliente_id   NUMERIC(38) NOT NULL,
                 email        VARCHAR(255) NOT NULL,
@@ -131,7 +159,8 @@ CREATE TABLE lojas.clientes (
 
 ALTER TABLE lojas.clientes OWNER TO gustavo;
 
--- CRIAÇÃO DOS COMENTÁRIOS DA TABELA CLIENTES
+-- CRIAÇÃO DOS COMENTÁRIOS DA TABELA CLIENTES --
+
 COMMENT ON TABLE lojas.clientes IS 'Tabela com as informações do cliente.';
 COMMENT ON COLUMN lojas.clientes.cliente_id IS 'Chave primária da tabela. 
 ID único do cliente.';
@@ -143,6 +172,8 @@ COMMENT ON COLUMN lojas.clientes.telefone2 IS 'Número de telefone secundário d
 
 ------------------------------------------------------------------------------------
 -- CRIAÇÃO DA TABELA ENVIOS
+------------------------------------------------------------------------------------
+
 CREATE TABLE lojas.envios (
                 envio_id           NUMERIC(38) NOT NULL,
                 loja_id            NUMERIC(38) NOT NULL,
@@ -154,7 +185,8 @@ CREATE TABLE lojas.envios (
 
 ALTER TABLE lojas.envios OWNER TO gustavo;
 
--- CRIAÇÃO DOS COMENTÁRIOS DA TABELA ENVIOS
+-- CRIAÇÃO DOS COMENTÁRIOS DA TABELA ENVIOS --
+
 COMMENT ON TABLE lojas.envios IS 'Tabela para controlar os envios de cada produto, de cada loja, de cada cliente.';
 COMMENT ON COLUMN lojas.envios.envio_id IS 'Chave primária da tabela. 
 ID único do envio de cada pedido.';
@@ -167,6 +199,8 @@ COMMENT ON COLUMN lojas.envios.status IS 'Situação em que se encontra cada env
 
 ------------------------------------------------------------------------------------
 -- CRIAÇÃO DA TABELA PEDIDOS
+------------------------------------------------------------------------------------
+
 CREATE TABLE lojas.pedidos (
                 pedido_id    NUMERIC(38) NOT NULL,
                 cliente_id   NUMERIC(38) NOT NULL,
@@ -178,7 +212,8 @@ CREATE TABLE lojas.pedidos (
 
 ALTER TABLE lojas.pedidos OWNER TO gustavo;
 
--- CRIAÇÃO DOS COMENTÁRIOS DA TABELA PEDIDOS
+-- CRIAÇÃO DOS COMENTÁRIOS DA TABELA PEDIDOS --
+
 COMMENT ON TABLE lojas.pedidos IS 'Tabela com os pedidos feitos pelos clientes em cada loja.';
 COMMENT ON COLUMN lojas.pedidos.pedido_id IS 'Chave primária da tabela. 
 ID do pedido feito pelo cliente.';
@@ -191,6 +226,8 @@ ID de cada loja.';
 
 ------------------------------------------------------------------------------------
 -- CRIAÇÃO DA TABELA PEDIDOS_ITENS
+------------------------------------------------------------------------------------
+
 CREATE TABLE lojas.pedidos_itens (
                 produto_id         NUMERIC(38) NOT NULL,
                 pedido_id          NUMERIC(38) NOT NULL,
@@ -203,7 +240,8 @@ CREATE TABLE lojas.pedidos_itens (
 
 ALTER TABLE lojas.pedidos_itens OWNER TO gustavo;
 
--- CRIAÇÃO DOS COMENTÁRIOS DA TABELA PEDIDOS_ITENS
+-- CRIAÇÃO DOS COMENTÁRIOS DA TABELA PEDIDOS_ITENS --
+
 COMMENT ON TABLE lojas.pedidos_itens IS 'Tabela para controlar todos os pedidos feitos, com a quantidade de cada produto e seus respectivos valores e destino.';
 COMMENT ON COLUMN lojas.pedidos_itens.produto_id IS 'Chave primária composta da tabela.
 ID único de cada produto.';
@@ -215,8 +253,10 @@ COMMENT ON COLUMN lojas.pedidos_itens.preco_unitario IS 'Preço unitário de cad
 COMMENT ON COLUMN lojas.pedidos_itens.quantidade IS 'Quantidade de produtos desejados no pedido.';
 
 ------------------------------------------------------------------------------------
--- CRIAÇÃO DAS CHAVES ESTRANGEIRAS 
--- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA ESTOQUES REFERENCIANDO A TABELA PRODUTOS
+-- CRIAÇÃO DAS CHAVES ESTRANGEIRAS --
+------------------------------------------------------------------------------------
+
+-- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA ESTOQUES REFERENCIANDO A TABELA PRODUTOS --
 ALTER TABLE lojas.estoques 
 ADD CONSTRAINT produtos_estoques_fk
 FOREIGN KEY (produto_id)
@@ -225,7 +265,7 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
--- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA PEDIDOS_ITENS REFERENCIANDO A TABELA PRODUTOS
+-- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA PEDIDOS_ITENS REFERENCIANDO A TABELA PRODUTOS --
 ALTER TABLE lojas.pedidos_itens 
 ADD CONSTRAINT produtos_pedidos_itens_fk
 FOREIGN KEY (produto_id)
@@ -234,7 +274,7 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
--- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA PEDIDOS REFERENCIANDO A TABELA LOJAS
+-- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA PEDIDOS REFERENCIANDO A TABELA LOJAS --
 ALTER TABLE lojas.pedidos 
 ADD CONSTRAINT lojas_pedidos_fk
 FOREIGN KEY (loja_id)
@@ -243,7 +283,7 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
--- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA ENVIOS REFERENCIANDO A TABELA LOJAS
+-- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA ENVIOS REFERENCIANDO A TABELA LOJAS --
 ALTER TABLE lojas.envios 
 ADD CONSTRAINT lojas_envios_fk
 FOREIGN KEY (loja_id)
@@ -252,7 +292,7 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
--- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA ESTOQUES REFERENCIANDO A TABELA LOJAS
+-- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA ESTOQUES REFERENCIANDO A TABELA LOJAS --
 ALTER TABLE lojas.estoques 
 ADD CONSTRAINT lojas_estoques_fk
 FOREIGN KEY (loja_id)
@@ -261,7 +301,7 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
--- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA PEDIDOS REFERENCIANDO A TABELA CLIENTES
+-- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA PEDIDOS REFERENCIANDO A TABELA CLIENTES --
 ALTER TABLE lojas.pedidos 
 ADD CONSTRAINT clientes_pedidos_fk
 FOREIGN KEY (cliente_id)
@@ -270,7 +310,7 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
--- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA ENVIOS REFERENCIANDO A TABELA CLIENTES
+-- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA ENVIOS REFERENCIANDO A TABELA CLIENTES --
 ALTER TABLE lojas.envios 
 ADD CONSTRAINT clientes_envios_fk
 FOREIGN KEY (cliente_id)
@@ -279,7 +319,7 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
--- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA PEDIDOS_ITENS REFERENCIANDO A TABELA ENVIOS
+-- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA PEDIDOS_ITENS REFERENCIANDO A TABELA ENVIOS --
 ALTER TABLE lojas.pedidos_itens 
 ADD CONSTRAINT envios_pedidos_itens_fk
 FOREIGN KEY (envio_id)
@@ -288,7 +328,7 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
--- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA PEDIDOS_ITENS REFERENCIANDO A TABELA PEDIDOS
+-- CRIAÇÃO DA CHAVE ESTRANGEIRA DA TABELA PEDIDOS_ITENS REFERENCIANDO A TABELA PEDIDOS --
 ALTER TABLE lojas.pedidos_itens 
 ADD CONSTRAINT pedidos_pedidos_itens_fk
 FOREIGN KEY (pedido_id)
@@ -296,34 +336,37 @@ REFERENCES lojas.pedidos (pedido_id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
+
 ------------------------------------------------------------------------------------
--- CRIAÇÃO DAS RESTRIÇÕES DAS COLUNAS
--- RESTRIÇÕES DA TABELA PEDIDOS
--- RESTRIÇÃO DA COLUNA STATUS
+-- CRIAÇÃO DAS RESTRIÇÕES DAS COLUNAS --
+------------------------------------------------------------------------------------
+
+-- RESTRIÇÕES DA TABELA PEDIDOS --
+-- RESTRIÇÃO DA COLUNA STATUS --
 ALTER TABLE lojas.pedidos
 ADD CONSTRAINT check_status_pedidos
 CHECK (status IN ('CANCELADO', 'COMPLETO', 'ABERTO', 'PAGO', 'REEMBOLSADO', 'ENVIADO'));
 
--- RESTRIÇÕES DA TABELA ENVIOS
--- RESTRIÇÃO DA COLUNA STATUS
+-- RESTRIÇÕES DA TABELA ENVIOS --
+-- RESTRIÇÃO DA COLUNA STATUS --
 ALTER TABLE lojas.envios 
 ADD CONSTRAINT check_status_envios 
 CHECK (status IN ('CRIADO', 'ENVIADO', 'TRANSITO', 'ENTREGUE'));
 
--- RESTRIÇÕES DA TABELA PRODUTOS
--- RESTRIÇÃO DA COLUNA STATUS
+-- RESTRIÇÕES DA TABELA PRODUTOS --
+-- RESTRIÇÃO DA COLUNA STATUS --
 ALTER TABLE lojas.produtos 
 ADD CONSTRAINT check_preco_unitario_produtos 
 CHECK (preco_unitario >= 0);
 
--- RESTRIÇÕES DA TABELA ESTOQUES
--- RESTRIÇÃO DA COLUNA QUANTIDADE
+-- RESTRIÇÕES DA TABELA ESTOQUES --
+-- RESTRIÇÃO DA COLUNA QUANTIDADE --
 ALTER TABLE lojas.estoques 
 ADD CONSTRAINT check_quantidade_estoques 
 CHECK (quantidade >= 0);
 
--- RESTRIÇÕES DA TABELA LOJAS
--- RESTRIÇÃO DAS COLUNAS ENDERECO_WEB E ENDERECO_FISICO
+-- RESTRIÇÕES DA TABELA LOJAS --
+-- RESTRIÇÃO DAS COLUNAS ENDERECO_WEB E ENDERECO_FISICO --
 ALTER TABLE lojas.lojas
 ADD CONSTRAINT check_endereco_lojas
 CHECK (endereco_web IS NOT NULL OR endereco_fisico IS NOT NULL);
