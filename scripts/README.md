@@ -1,4 +1,4 @@
-###### subdiretório "__outros" deve ser desconsiderado para fins avaliativos, consiste em arquivos para melhor apresentação do projeto.
+###### _subdiretório "__outros" deve ser desconsiderado para fins avaliativos, consiste em arquivos para melhor apresentação do projeto._
 # Sobre
 ##### cc1mc_202306629_postgresql.architect
 > Script do diagrama criado no Power Architect, que serviu de base para a criação do banco de dados.
