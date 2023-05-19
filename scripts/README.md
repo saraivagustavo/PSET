@@ -6,4 +6,4 @@
 > <details> <summary>Imagem do Diagrama</summary> ![Diagrama](_outros/cc1mc_202306629_postgresql.architect.jpg)</details>
 ##### cc1mc_202306629_postgresql.sql
 > Script SQL para a criação do banco de dados no PostgreSQL.
- ![Diagrama](_outros/cc1mc_202306629_postgresql.architect.jpg)
+ ![Diagrama](uvv_bd1_cc1mc/_outros/cc1mc_202306629_postgresql.architect.jpg)
