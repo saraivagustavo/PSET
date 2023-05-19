@@ -5,4 +5,3 @@
 > Arquivo PDF da imagem do diagrama.
 ##### cc1mc_202306629_postgresql.sql
 > Script SQL para a criação do banco de dados no PostgreSQL.
- ![Diagrama](_outros/cc1mc_202306629_postgresql.architect.jpg)
