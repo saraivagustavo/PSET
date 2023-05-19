@@ -5,7 +5,7 @@
 ##### cc1mc_202306629_postgresql.architech.pdf
 > Arquivo PDF da imagem do diagrama.
 <details>
-  ><summary>Exemplo do Diagrama</summary>
+  <summary>Exemplo do Diagrama</summary>
 
   ![Exemplo do Diagrama](/scripts/_outros/cc1mc_202306629_postgresql.architect.jpg)
 </details>
