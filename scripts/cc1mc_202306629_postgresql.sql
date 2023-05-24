@@ -311,35 +311,86 @@ REFERENCES lojas.pedidos (pedido_id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
+
 ------------------------------------------------------------------------------------
 -- CRIAÇÃO DAS RESTRIÇÕES DAS COLUNAS
 ------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
 -- RESTRIÇÕES DA TABELA PEDIDOS --
+------------------------------------------------------------------------------------
 -- RESTRIÇÃO DA COLUNA STATUS --
 ALTER TABLE lojas.pedidos
 ADD CONSTRAINT check_status_pedidos
 CHECK (status IN ('CANCELADO', 'COMPLETO', 'ABERTO', 'PAGO', 'REEMBOLSADO', 'ENVIADO'));
 
+------------------------------------------------------------------------------------
 -- RESTRIÇÕES DA TABELA ENVIOS --
+------------------------------------------------------------------------------------
 -- RESTRIÇÃO DA COLUNA STATUS --
 ALTER TABLE lojas.envios 
 ADD CONSTRAINT check_status_envios 
 CHECK (status IN ('CRIADO', 'ENVIADO', 'TRANSITO', 'ENTREGUE'));
 
+------------------------------------------------------------------------------------
 -- RESTRIÇÕES DA TABELA PRODUTOS --
+------------------------------------------------------------------------------------
 -- RESTRIÇÃO DA COLUNA STATUS --
 ALTER TABLE lojas.produtos 
 ADD CONSTRAINT check_preco_unitario_produtos 
 CHECK (preco_unitario >= 0);
+-- RESTRIÇÃO DA COLUNA NOME --
+ALTER TABLE lojas.produtos
+ADD CONSTRAINT unico_nome_produtos 
+UNIQUE (nome);
 
+------------------------------------------------------------------------------------
 -- RESTRIÇÕES DA TABELA ESTOQUES --
+------------------------------------------------------------------------------------
 -- RESTRIÇÃO DA COLUNA QUANTIDADE --
 ALTER TABLE lojas.estoques 
 ADD CONSTRAINT check_quantidade_estoques 
 CHECK (quantidade >= 0);
 
+------------------------------------------------------------------------------------
 -- RESTRIÇÕES DA TABELA LOJAS --
+------------------------------------------------------------------------------------
 -- RESTRIÇÃO DAS COLUNAS ENDERECO_WEB E ENDERECO_FISICO --
 ALTER TABLE lojas.lojas
 ADD CONSTRAINT check_endereco_lojas
 CHECK (endereco_web IS NOT NULL OR endereco_fisico IS NOT NULL);
+-- RESTRIÇÃO DA COLUNA NOME --
+ALTER TABLE lojas.lojas
+ADD CONSTRAINT unico_nome_lojas 
+UNIQUE (nome);
+-- RESTRIÇÃO DA COLUNA LATITUDE --
+ALTER TABLE lojas.lojas
+ADD CONSTRAINT check_latitude_lojas
+CHECK (latitude >= -90 AND latitude <= 90);
+-- RESTRIÇÃO DA COLUNA LONGITUDE --
+ALTER TABLE lojas.lojas
+ADD CONSTRAINT check_longitude_lojas
+CHECK (longitude >= -180 AND longitude <= 180);
+
+------------------------------------------------------------------------------------
+-- RESTRIÇÕES DA TABELA CLIENTES --
+------------------------------------------------------------------------------------
+-- RESTRIÇÃO DA COLUNA EMAIL --
+ALTER TABLE lojas.clientes
+ADD CONSTRAINT check_email_clientes
+CHECK (email ~* '^[A-Za-z0-9._]+@[A-Za-z0-9]+\\.[A-Za-z]{2,}$');
+-- RESTRIÇÃO DA COLUNA TELEFONE1 --
+ALTER TABLE lojas.clientes
+ADD CONSTRAINT check_telefone1_clientes
+CHECK (LENGTH(telefone1) >= 5 AND LENGTH(telefone1) <= 20);
+
+------------------------------------------------------------------------------------
+-- RESTRIÇÕES DA TABELA PEDIDOS_ITENS --
+------------------------------------------------------------------------------------
+-- RESTRIÇÃO DA COLUNA QUANTIDADE --
+ALTER TABLE lojas.pedidos_itens
+ADD CONSTRAINT check_quantidade_pedidos_itens
+CHECK (quantidade > 0);
+-- RESTRIÇÃO DA COLUNA PRECO_UNITARIO --
+ALTER TABLE lojas.pedidos_itens
+ADD CONSTRAINT check_preco_unitario_pedidos_itens
+CHECK (preco_unitario > 0);
