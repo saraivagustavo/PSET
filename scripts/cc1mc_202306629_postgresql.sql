@@ -26,6 +26,8 @@ CREATE DATABASE uvv
     LC_COLLATE = 'pt_BR.UTF-8'
     LC_CTYPE = 'pt_BR.UTF-8'
     ALLOW_CONNECTIONS = true;
+
+COMMENT ON DATABASE uvv IS 'Banco de Dados UVV que será inserido os dados';
 ------------------------------------------------------------------------------------
 -- TROCA DE CONEXÃO --
 ------------------------------------------------------------------------------------
@@ -38,7 +40,7 @@ DROP SCHEMA IF EXISTS lojas;
 CREATE SCHEMA IF NOT EXISTS lojas
     AUTHORIZATION gustavo;
 ALTER DATABASE uvv SET search_path TO "lojas", public;
-SET search_path TO lojas;
+SET search_path TO lojas, "gustavo", public;
 ------------------------------------------------------------------------------------
 -- CRIAÇÃO DA TABELA PRODUTOS --
 ------------------------------------------------------------------------------------
