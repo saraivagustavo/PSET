@@ -7,7 +7,7 @@
 <details>
   <summary>Exemplo do Diagrama</summary>
 
-  ![Exemplo do Diagrama](/scripts/outros/cc1mc_202306629_postgresql.architect.jpg)
+  ![Exemplo do Diagrama](PSET1/scripts/outros/cc1mc_202306629_postgresql.architect.jpg)
 </details>
 
 ##### cc1mc_202306629_postgresql.sql
